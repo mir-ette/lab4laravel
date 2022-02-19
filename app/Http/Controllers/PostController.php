@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
-
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -55,10 +55,11 @@ class PostController extends Controller
        $post->title=$request->title;
 
        $post->description=$request->description;
+       //$post->user_id= Auth::id();
        $post->user_id=2;
         $post->save();
 
-        return "done";
+        return redirect('/posts');
     }
 
     /**

@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\UserController;
-use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,85 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/test', function () {
+Route::get('/', function () {
     return view('welcome');
-});*/
-
-/*Route::get('/posts', function () {
-    $posts=[
-        [
-
-    
-        "id"=>1,
-        "name"=>"mirette",
-        "body"=>"hi mirette",
-        "title"=>"title mirette"
-    ],[
-
-    
-        "id"=>2,
-        "name"=>"maria",
-        "body"=>"hi maria",
-        "title"=>"title maria"
-    ],
-    [
-
-    
-        "id"=>3,
-        "name"=>"john",
-        "body"=>"hi john",
-        "title"=>"title john"
-    ],
-
-
-
-
-    [
-
-    
-        "id"=>4,
-        "name"=>"mark",
-        "body"=>"hi mark",
-        "title"=>"title mark"
-    ]
-    ];return view('posts.index',["posts"=>$posts]);
 });
-Route::get('/show/{id}', function ($id) {
 
-    $post= [
+Route::get('/dashboard', function () {
+    return redirect('/posts');
+})->middleware(['auth'])->name('dashboard');
 
-    
-        "id"=>$id,
-        "name"=>"mark",
-        "body"=>"hi mark",
-        "title"=>"title mark"
-    ];
-return view('posts.show',$post);
-})->where('id','[0-9]+');
-
-Route::get('/edit/{id}', function ($id) {
-
-    $post= [
-
-        "id"=>$id,
-        "name"=>"mark",
-        "body"=>"hi mark",
-        "title"=>"title mark"
-    ];
-return view('posts.edit',$post);});
-
-Route::post("update", function () {
-
-    return "update" ;});
-
-    Route::get("/create", function () {
-        return view("posts.create");});
-
-        Route::post("/store", function () {
-            return "store" ;});*/
-
-
-Route::resource('posts',PostController::class);
-
-Route::get("/users/create",[UserController::class,"create"]);
-Route::post("/users",[UserController::class,"store"]);
+require __DIR__.'/auth.php';
+route::resource("posts",PostController::class);
