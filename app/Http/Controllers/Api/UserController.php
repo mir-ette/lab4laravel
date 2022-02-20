@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -15,9 +17,19 @@ class UserController extends Controller
     public function index()
     {
         //
+        $users= User::all();
+        return UserResource::collection($users) ;
     }
 
-    
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -28,14 +40,6 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        $user= new User;
-
-        $user->name=$request->name;
- 
-        $user->email=$request->email;
-        $user->password=$request->password;
-        
-         $user->save();
     }
 
     /**
@@ -46,7 +50,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $users = User::find($id);
+        return  new UserResource($users);
     }
 
     /**

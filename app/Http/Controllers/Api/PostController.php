@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
+use App\Models\Post;
 use Illuminate\Http\Request;
-use App\Models\User;
 
-class UserController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +17,10 @@ class UserController extends Controller
     public function index()
     {
         //
+       return PostResource::collection(Post::all()) ;
     }
 
-    
+   
 
     /**
      * Store a newly created resource in storage.
@@ -28,14 +31,15 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        $user= new User;
+        $post= new Post;
 
-        $user->name=$request->name;
- 
-        $user->email=$request->email;
-        $user->password=$request->password;
-        
-         $user->save();
+       $post->title=$request->title;
+
+       $post->description=$request->description;
+       //$post->user_id= Auth::id();
+       $post->user_id=$request->user_id;
+        $post->save();
+        return "ok";
     }
 
     /**
@@ -47,19 +51,11 @@ class UserController extends Controller
     public function show($id)
     {
         //
+       $post=Post::find($id);
+       return new PostResource($post);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
+ 
     /**
      * Update the specified resource in storage.
      *
@@ -70,6 +66,13 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $post=Post::find($id);
+
+       $post->title=$request->title;
+
+       $post->description=$request->description;
+        $post->save();
+        return "ok";
     }
 
     /**
@@ -81,5 +84,6 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+        return Post::destroy($id);
     }
 }
